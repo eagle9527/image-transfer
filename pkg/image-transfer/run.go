@@ -248,7 +248,6 @@ func (c *Client) NormalTransfer(imageList map[string]string, ccrClient *ccrapis.
 	} else {
 		// Normal progress is urlPairList --> NormalPairList --> jobListChan
 		for source, target := range imageList {
-			fmt.Println("source", source, "target", target)
 			c.urlPairList.PushBack(&URLPair{
 				source: source,
 				target: target,

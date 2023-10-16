@@ -137,8 +137,6 @@ func (c *Configs) GetImageList() map[string]string {
 		return nil
 	}
 
-	fmt.Println("imageList", imageList)
-
 	return imageList
 }
 
