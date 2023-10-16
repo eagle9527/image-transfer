@@ -18,16 +18,14 @@
 
 package imagetransfer
 
-
 import (
 	"fmt"
-	"tkestack.io/image-transfer/pkg/log"
-	"tkestack.io/image-transfer/pkg/image-transfer/options"
 	"github.com/spf13/cobra"
-	flagUtil "tkestack.io/image-transfer/pkg/flag"
 	"os"
+	flagUtil "tkestack.io/image-transfer/pkg/flag"
+	"tkestack.io/image-transfer/pkg/image-transfer/options"
+	"tkestack.io/image-transfer/pkg/log"
 )
-
 
 // RunFunc defines the alias of the command entry function
 type RunFunc func(cmd *cobra.Command, args []string)
@@ -54,7 +52,6 @@ func run(opts *options.ClientOptions) RunFunc {
 		defer log.FlushLogger()
 
 		flagUtil.PrintFlags(cmd.Flags())
-
 
 		client, err := NewTransferClient(opts)
 		if err != nil {

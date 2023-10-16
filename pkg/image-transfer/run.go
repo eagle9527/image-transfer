@@ -34,7 +34,7 @@ import (
 	"tkestack.io/image-transfer/pkg/utils"
 )
 
-//Client is a transfer client
+// Client is a transfer client
 type Client struct {
 	// a Transfer.Job list
 	jobList *list.List
@@ -80,7 +80,7 @@ func (c *Client) Run() error {
 
 }
 
-//CCRToTCRTransfer transfer ccr to tcr
+// CCRToTCRTransfer transfer ccr to tcr
 func (c *Client) CCRToTCRTransfer() error {
 
 	ccrClient := ccrapis.NewCCRAPIClient()
@@ -136,7 +136,7 @@ func (c *Client) CCRToTCRTransfer() error {
 
 }
 
-//GenerateCcrToTcrRules generate rules of ccr transfer to tcr
+// GenerateCcrToTcrRules generate rules of ccr transfer to tcr
 func (c *Client) GenerateCcrToTcrRules(failedNsList []string, ccrClient *ccrapis.CCRAPIClient,
 	secret map[string]configs.Secret, ccrRegion string, tcrRegion string, tcrName string) (chan string, error) {
 
@@ -163,7 +163,7 @@ func (c *Client) GenerateCcrToTcrRules(failedNsList []string, ccrClient *ccrapis
 
 }
 
-//RetryCreateTcrNs retry to create tcr namespaces
+// RetryCreateTcrNs retry to create tcr namespaces
 func (c *Client) RetryCreateTcrNs(tcrClient *tcrapis.TCRAPIClient, retryList []string,
 	secret map[string]configs.Secret, region string) ([]string, error) {
 	var failedList []string
@@ -196,7 +196,7 @@ func (c *Client) RetryCreateTcrNs(tcrClient *tcrapis.TCRAPIClient, retryList []s
 
 }
 
-//CreateTcrNs create tcr namespaces
+// CreateTcrNs create tcr namespaces
 func (c *Client) CreateTcrNs(tcrClient *tcrapis.TCRAPIClient, ccrNs, tcrNs []string,
 	secret map[string]configs.Secret, region string, tcrID string) ([]string, error) {
 
@@ -224,7 +224,7 @@ func (c *Client) CreateTcrNs(tcrClient *tcrapis.TCRAPIClient, ccrNs, tcrNs []str
 
 }
 
-//NormalTransfer is the normal mode of transfer
+// NormalTransfer is the normal mode of transfer
 func (c *Client) NormalTransfer(imageList map[string]string, ccrClient *ccrapis.CCRAPIClient, tcrClient *tcrapis.TCRAPIClient, repoChan chan string) error {
 	jobListChan := make(chan *transfer.Job, c.config.FlagConf.Config.RoutineNums)
 	fmt.Println("Start to handle transfer jobs, please wait ...")
@@ -248,6 +248,7 @@ func (c *Client) NormalTransfer(imageList map[string]string, ccrClient *ccrapis.
 	} else {
 		// Normal progress is urlPairList --> NormalPairList --> jobListChan
 		for source, target := range imageList {
+			fmt.Println("source", source, "target", target)
 			c.urlPairList.PushBack(&URLPair{
 				source: source,
 				target: target,
@@ -307,7 +308,7 @@ func (c *Client) NormalTransfer(imageList map[string]string, ccrClient *ccrapis.
 
 }
 
-//Retry is retry the failed job
+// Retry is retry the failed job
 func (c *Client) Retry() {
 	retryJobListChan := make(chan *transfer.Job, c.config.FlagConf.Config.RoutineNums)
 

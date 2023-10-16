@@ -30,7 +30,6 @@ import (
 	"tkestack.io/image-transfer/pkg/log"
 )
 
-
 var (
 	once     sync.Once
 	instance *Configs
@@ -40,17 +39,17 @@ var (
 )
 
 const (
-	maxRatelimit int = 30000
+	maxRatelimit   int = 30000
 	maxRoutineNums int = 50
 )
 
 // Configs struct save of all config
 type Configs struct {
-	FlagConf *options.ClientOptions
-	Conf     *ini.File
-	Security      map[string]Security
+	FlagConf  *options.ClientOptions
+	Conf      *ini.File
+	Security  map[string]Security
 	ImageList map[string]string
-	Secret map[string]Secret
+	Secret    map[string]Secret
 	//ConfMap       map[string]interface{}
 	//ConfMapString map[string]string
 }
@@ -64,10 +63,9 @@ type Security struct {
 
 // Secret describes secret info for tencent cloud
 type Secret struct {
-	SecretID string `json:"secretId" yaml:"secretId"`
+	SecretID  string `json:"secretId" yaml:"secretId"`
 	SecretKey string `json:"secretKey" yaml:"secretKey"`
 }
-
 
 // InitConfigs InitLogger initializes logger the way we want for tke.
 func InitConfigs(opts *options.ClientOptions) (*Configs, error) {
@@ -107,7 +105,6 @@ func InitConfigs(opts *options.ClientOptions) (*Configs, error) {
 		}
 		instance.Security = securityList
 
-
 	}
 
 	if instance.FlagConf.Config.RoutineNums > maxRoutineNums {
@@ -119,7 +116,6 @@ func InitConfigs(opts *options.ClientOptions) (*Configs, error) {
 	}
 
 	QPS = instance.FlagConf.Config.QPS
-
 
 	return instance, nil
 }
@@ -136,12 +132,12 @@ func GetConfigs() *Configs {
 func (c *Configs) GetImageList() map[string]string {
 	var imageList map[string]string
 
-
 	if err := openAndDecode(c.FlagConf.Config.RuleFile, &imageList); err != nil {
 		log.Errorf("decode config file %v error: %v", c.FlagConf.Config.RuleFile, err)
 		return nil
 	}
 
+	fmt.Println("imageList", imageList)
 
 	return imageList
 }
@@ -155,10 +151,10 @@ func (c *Configs) GetSecurity() (map[string]Security, error) {
 		return securityList, err
 	}
 
+	fmt.Println("securityList", securityList)
 
 	return securityList, nil
 }
-
 
 // GetSecuritySpecific gets the specific authentication information in Config
 func (c *Configs) GetSecuritySpecific(registry string, namespace string) (Security, bool) {
@@ -186,7 +182,6 @@ func (c *Configs) GetSecret() (map[string]Secret, error) {
 
 }
 
-
 // Open yaml file and decode into target interface
 func openAndDecode(filePath string, target interface{}) error {
 	if !strings.HasSuffix(filePath, ".yaml") {
@@ -202,12 +197,10 @@ func openAndDecode(filePath string, target interface{}) error {
 		return fmt.Errorf("open file %v error: %v", filePath, err)
 	}
 
-
 	decoder := yaml.NewDecoder(file)
 	if err := decoder.Decode(target); err != nil {
 		return fmt.Errorf("unmarshal config error: %v", err)
 	}
-
 
 	return nil
 }
