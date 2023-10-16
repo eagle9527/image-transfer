@@ -26,7 +26,6 @@ import (
 
 	"io"
 
-
 	"github.com/containers/image/v5/docker"
 	"github.com/containers/image/v5/types"
 	"tkestack.io/image-transfer/pkg/utils"
@@ -66,7 +65,7 @@ func NewImageSource(registry, repository, tag, username, password string, insecu
 	if insecure {
 		// destinatoin registry is http service
 		sysctx = &types.SystemContext{
-			DockerInsecureSkipTLSVerify: types.OptionalBoolTrue,
+			DockerInsecureSkipTLSVerify: types.OptionalBoolFalse,
 		}
 	} else {
 		sysctx = &types.SystemContext{}

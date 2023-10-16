@@ -38,7 +38,7 @@ type ImageTarget struct {
 	targetRef  types.ImageReference
 	target     types.ImageDestination
 	ctx        context.Context
-	sysctx    *types.SystemContext
+	sysctx     *types.SystemContext
 }
 
 // NewImageTarget generates a ImageTarget by repository, the repository string must include "tag".
@@ -64,7 +64,7 @@ func NewImageTarget(registry, repository, tag, username, password string, insecu
 	if insecure {
 		// destinatoin registry is http service
 		sysctx = &types.SystemContext{
-			DockerInsecureSkipTLSVerify: types.OptionalBoolTrue,
+			DockerInsecureSkipTLSVerify: types.OptionalBoolFalse,
 		}
 	} else {
 		sysctx = &types.SystemContext{}
@@ -84,10 +84,10 @@ func NewImageTarget(registry, repository, tag, username, password string, insecu
 	}
 
 	return &ImageTarget{
-		targetRef: destRef,
-		target:    rawtarget,
-		ctx:       ctx,
-		sysctx: sysctx,
+		targetRef:  destRef,
+		target:     rawtarget,
+		ctx:        ctx,
+		sysctx:     sysctx,
 		registry:   registry,
 		repository: repository,
 		tag:        tag,
