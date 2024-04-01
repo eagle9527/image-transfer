@@ -4,3 +4,6 @@ ccr_to_tcr_rules
 .vscode/*
 *.sh
 image-transfer
+registry-secret.yaml
+start.sh
+transfer-rule.yaml
